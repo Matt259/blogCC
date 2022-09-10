@@ -1,0 +1,2 @@
+# blogCC
+blog for CC
