@@ -2,29 +2,37 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+    
 </head>
 <body>
     
-<div class="main-block">
-<div class="left-part">
-<i class="fas fa-envelope"></i>
-<i class="fas fa-at"></i>
-<i class="fas fa-mail-bulk"></i>
-</div>
-<form action="/">
-<h1>Create a post</h1>
-<div class="info">
-<input class="fname" type="text" name="fullname" placeholder="Full name">
-<input type="text" name="date" placeholder="Date">
-<input type="text" name="pictureURL" placeholder="Picture URL">
-</div>
-<p>Comment</p>
-<div>
-<textarea rows="6" name = "comment" ></textarea>
-</div>
-<button type="submit" href="/">Submit</button>
-</form>
-</div>
+    <div class="main-block">
+    <div class="left-part"></div>
+    <form action="{{url_for('insert')}}" method = "post">
+        <!-- flash message after a blog is successfully storted within the db -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p id = "msg">{{message}}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <h1>Create a post</h1>
+        <div class="info">
+            <input type="text" name="fullname" placeholder="Full name">
+            <input type= "date" name="date" placeholder="Date" id = "maxdate">
+            <input type= "url" name="pictureURL" placeholder="Picture URL">
+        </div>
+        <p>Comment</p>
+        <div>
+            <textarea rows="6" name = "comment" ></textarea>
+        </div>
+        <button type="submit" href="/">Submit</button>
+    </form>
+    </div>
+
+    <script type="text/javascript" src = "{{ url_for('static', filename='blogtweaks.js')}}"></script>
 </body>
+
 </html>
