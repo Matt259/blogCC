@@ -14,11 +14,13 @@ def trim_dates(dates):
         dates[Index] = date[:4]
     return dates
 
-#Removes duplicates and sorts
+#Removes duplicates, current year and sorts
 def get_unique_dates(dates):    
     unique_dates = []
     [unique_dates.append(x) for x in dates if x not in unique_dates]
     unique_dates.sort(reverse=True)
+    if "2022" in unique_dates:
+        unique_dates.pop(0)
     return unique_dates
 
 def get_dates():

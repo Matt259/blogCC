@@ -34,6 +34,7 @@
     </div>
     <div class = "filter">
         <select id = "year-filter" onchange="searchFilter()">
+            <option id = "2022"class = "dates"></option> 
             {% for date in dates %}
                 <option class = "dates">{{date}}</option> 
             {% endfor %}    

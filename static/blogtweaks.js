@@ -43,6 +43,10 @@ for(let i = 0; i < closebtnCollection.length; i++){
     })
 }
 
+//Set current year by default, in this case 2022
+var todaysDateSet = document.getElementById('2022').innerHTML = year;
+
+
 
 
 //Takes the values from the drop down and compares them to the blog dates
