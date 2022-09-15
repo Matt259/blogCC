@@ -26,7 +26,7 @@ class Data(db.Model):
     picture_url = db.Column(db.String(100))
     comment = db.Column(db.String(500))
     
-    def __init__(self, fullname = " ", date = " ", picture_url = " ", comment = " "):
+    def __init__(self, fullname, date, picture_url, comment):
         self.fullname=fullname 
         self.date=date 
         self.picture_url=picture_url 

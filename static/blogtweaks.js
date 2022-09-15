@@ -50,6 +50,7 @@ function searchFilter(){
     let selectedYear = document.getElementById('year-filter').value;
     const blogs = document.getElementsByClassName('main-block2');
     const blogYears = document.querySelectorAll('.blog-date');
+    
     for (let i = 0; i < blogs.length; i++){
         var blogYear = blogYears[i].textContent.slice(0,4); //Trim the date month and day part
 
@@ -62,6 +63,7 @@ function searchFilter(){
         }
 
     }
+    
 }
 searchFilter();  //To make sure to filter the 2022 posts on the initial page come up
 
