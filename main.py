@@ -1,24 +1,19 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 import os
 from flask_sqlalchemy import SQLAlchemy
-
+import date_utils
 
 
 #html path
 project_root = os.path.dirname(__file__)
 template_path = os.path.join(project_root, './')
 
+app = Flask(__name__, template_folder=template_path)    #Flask instance
 
-
-
-app = Flask(__name__, template_folder=template_path)
-
-
+#SQL config
 app.secret_key = os.urandom(12)
-
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:''@localhost/crud'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 db = SQLAlchemy(app)
 
 
@@ -31,20 +26,21 @@ class Data(db.Model):
     picture_url = db.Column(db.String(100))
     comment = db.Column(db.String(500))
     
-    def __init__(self, fullname, date, picture_url, comment):
+    def __init__(self, fullname = " ", date = " ", picture_url = " ", comment = " "):
         self.fullname=fullname 
         self.date=date 
         self.picture_url=picture_url 
         self.comment=comment 
-
-
-
-@app.route('/')
+        
+#Route to Index, returns all the rows as well as the date column       
+@app.route('/') 
 def return_index():
+    unique_dates = date_utils.get_dates()
     all_data = Data.query.all()
-    return render_template("index.html", blogs = all_data)
+    return render_template("index.html", blogs = all_data, dates = unique_dates)
 
-@app.route('/insert', methods = ['POST'])
+#Insert blog post to db
+@app.route('/insert', methods = ['POST'])   
 def insert():
     if request.method == 'POST':
         fullname = request.form['fullname']
@@ -62,7 +58,8 @@ def insert():
             flash("Both names are required")
             return redirect(url_for('return_index'))
 
-@app.route('/delete/<int:id>/')
+#Delete blog
+@app.route('/delete/<int:id>/') 
 def delete(id):
     data = Data.query.get(id)
     db.session.delete(data)
@@ -70,16 +67,15 @@ def delete(id):
     flash("Blog deleted")
     return redirect(url_for('return_index'))
 
-@app.route('/update/<int:id>', methods = ['GET', 'POST'])
+#Edit blog
+@app.route('/update/<int:id>', methods = ['GET', 'POST'])   
 def update(id):
     if request.method == 'POST':
-        print(id)
         my_data = Data.query.get(id)
         my_data.fullname = request.form['edit-fullname']
         my_data.date = request.form['edit-date']
         my_data.picture_url = request.form['edit-pictureURL']
         my_data.comment = request.form['edit-comment']
-        
         db.session.commit()
         flash("Updated")
         return redirect(url_for('return_index'))
